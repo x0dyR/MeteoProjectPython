@@ -1,12 +1,14 @@
+import os
+os.environ['ADAFRUIT_DHT_FORCE_RPI'] = '1'  # Принудительно указываем, что работаем на Raspberry Pi
+
 import Adafruit_DHT
-from Adafruit_DHT import raspberry_pi  # импортируем объект платформы для Raspberry Pi
 
 class DHT11Reader:
     def __init__(self, sensor=Adafruit_DHT.DHT11, pin=7):
         self.sensor = sensor
-        self.pin = pin  # Физический порт 7. При необходимости измените на BCM-номер
+        self.pin = pin  # Физический порт 7. Если нужно, замените на BCM-номер
 
     def read(self):
-        # Передаём объект платформы вместо строки
-        humidity, temperature = Adafruit_DHT.read_retry(self.sensor, self.pin, platform=raspberry_pi)
+        # Вызываем read_retry без передачи параметра platform
+        humidity, temperature = Adafruit_DHT.read_retry(self.sensor, self.pin)
         return temperature, humidity
